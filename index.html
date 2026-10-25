@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ToolsWithAI - Free AI Tools</title>
+<meta name="description" content="Discover useful AI tools for writing, social media, creativity and productivity.">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#0b0b12;color:#fff}
+header{padding:22px 16px;text-align:center;background:#12101d;border-bottom:1px solid #29213e}
+.logo{font-size:27px;font-weight:bold;color:#b58aff}
+.logo span{color:#fff}
+header p{color:#aaa;margin-top:8px;font-size:14px}
+.hero{text-align:center;padding:45px 18px 30px}
+.hero h1{font-size:32px;margin-bottom:14px}
+.hero h1 span{color:#b58aff}
+.hero p{color:#bbb;line-height:1.6}
+.search{display:block;width:100%;max-width:450px;margin:24px auto;padding:15px;border-radius:12px;border:1px solid #514071;background:#171421;color:white;font-size:16px;outline:none}
+.container{max-width:950px;margin:auto;padding:15px}
+.section-title{font-size:22px;margin:15px 0 20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:14px}
+.card{background:#151320;border:1px solid #302542;border-radius:15px;padding:20px 14px;transition:.2s}
+.card:hover{border-color:#a46bff;transform:translateY(-3px)}
+.icon{font-size:30px;margin-bottom:13px}
+.card h3{font-size:16px;margin-bottom:9px}
+.card p{font-size:13px;line-height:1.5;color:#aaa}
+.badge{display:inline-block;margin-top:13px;color:#c9a7ff;font-size:12px}
+.contact{margin-top:45px;padding:24px 18px;background:#151320;border:1px solid #302542;border-radius:16px}
+.contact h2{margin-bottom:10px}
+.contact p{color:#aaa;font-size:14px;line-height:1.6;margin-bottom:18px}
+input,textarea{width:100%;padding:13px;margin:7px 0;border:1px solid #40344f;border-radius:9px;background:#0d0b14;color:white;font-size:15px}
+button{background:#9655f5;color:white;border:0;border-radius:9px;padding:13px 20px;font-size:15px;font-weight:bold;cursor:pointer}
+.note{font-size:12px;color:#aaa;margin-top:12px}
+footer{text-align:center;padding:28px 12px;color:#888;font-size:13px}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">Tools<span>WithAI</span></div>
+  <p>Your everyday AI toolkit</p>
+</header>
+
+<section class="hero">
+  <h1>Make Life Easier with <span>AI</span></h1>
+  <p>Discover smart tools for content, creativity and productivity.</p>
+  <input class="search" id="search" type="search" placeholder="🔍 Search AI tools..." aria-label="Search AI tools">
+</section>
+
+<main class="container">
+  <h2 class="section-title">✨ Explore Our Tools</h2>
+  <div class="grid" id="tools">
+    <article class="card" data-name="text writer generator">
+      <div class="icon">✍️</div><h3>AI Text Writer</h3>
+      <p>Get help drafting text and ideas.</p><span class="badge">Coming soon</span>
+    </article>
+    <article class="card" data-name="instagram caption">
+      <div class="icon">📸</div><h3>Caption Generator</h3>
+      <p>Ideas for social media captions.</p><span class="badge">Coming soon</span>
+    </article>
+    <article class="card" data-name="hashtag generator">
+      <div class="icon">#️⃣</div><h3>Hashtag Generator</h3>
+      <p>Discover relevant hashtag ideas.</p><span class="badge">Coming soon</span>
+    </article>
+    <article class="card" data-name="bio instagram profile">
+      <div class="icon">👤</div><h3>Bio Generator</h3>
+      <p>Create a profile bio that fits you.</p><span class="badge">Coming soon</span>
+    </article>
+    <article class="card" data-name="story writer">
+      <div class="icon">📖</div><h3>Story Writer</h3>
+      <p>Get inspiration for original stories.</p><span class="badge">Coming soon</span>
+    </article>
+    <article class="card" data-name="youtube title">
+      <div class="icon">🎬</div><h3>YouTube Title Ideas</h3>
+      <p>Brainstorm titles for your videos.</p><span class="badge">Coming soon</span>
+    </article>
+    <article class="card" data-name="resume cv">
+      <div class="icon">📄</div><h3>Resume Helper</h3>
+      <p>Organize your experience and skills.</p><span class="badge">Coming soon</span>
+    </article>
+    <article class="card" data-name="translator language">
+      <div class="icon">🌐</div><h3>Text Translator</h3>
+      <p>Get help translating text between languages.</p><span class="badge">Coming soon</span>
+    </article>
+  </div>
+
+  <section class="contact" id="contact">
+    <h2>📩 Contact Us</h2>
+    <p>Have a suggestion or feedback? Leave us a message.</p>
+    <form id="contactForm">
+      <input id="visitorName" type="text" placeholder="Your name" maxlength="80" required>
+      <textarea id="visitorMessage" placeholder="Write your message..." rows="4" maxlength="2000" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+    <p class="note" id="formNote">Note: The message inbox is being set up. Messages cannot be delivered yet.</p>
+  </section>
+</main>
+
+<footer>© <span id="year"></span> ToolsWithAI · Built for everyone 💜</footer>
+
+<script>
+document.getElementById('year').textContent=new Date().getFullYear();
+
+document.getElementById('search').addEventListener('input',function(){
+  const query=this.value.toLowerCase().trim();
+  document.querySelectorAll('#tools .card').forEach(card=>{
+    card.style.display=card.dataset.name.includes(query)?'block':'none';
+  });
+});
+
+document.getElementById('contactForm').addEventListener('submit',function(event){
+  event.preventDefault();
+  document.getElementById('formNote').textContent=
+    'The inbox is not connected yet. Your message has NOT been sent.';
+});
+</script>
+</body>
+</html>
