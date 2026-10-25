@@ -4,115 +4,171 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ToolsWithAI - Free AI Tools</title>
-<meta name="description" content="Discover useful AI tools for writing, social media, creativity and productivity.">
+<meta name="description" content="Free online tools for captions, hashtags, bios, stories, YouTube titles and more.">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,sans-serif;background:#0b0b12;color:#fff}
-header{padding:22px 16px;text-align:center;background:#12101d;border-bottom:1px solid #29213e}
-.logo{font-size:27px;font-weight:bold;color:#b58aff}
-.logo span{color:#fff}
-header p{color:#aaa;margin-top:8px;font-size:14px}
-.hero{text-align:center;padding:45px 18px 30px}
-.hero h1{font-size:32px;margin-bottom:14px}
-.hero h1 span{color:#b58aff}
-.hero p{color:#bbb;line-height:1.6}
-.search{display:block;width:100%;max-width:450px;margin:24px auto;padding:15px;border-radius:12px;border:1px solid #514071;background:#171421;color:white;font-size:16px;outline:none}
-.container{max-width:950px;margin:auto;padding:15px}
-.section-title{font-size:22px;margin:15px 0 20px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:14px}
-.card{background:#151320;border:1px solid #302542;border-radius:15px;padding:20px 14px;transition:.2s}
-.card:hover{border-color:#a46bff;transform:translateY(-3px)}
-.icon{font-size:30px;margin-bottom:13px}
-.card h3{font-size:16px;margin-bottom:9px}
-.card p{font-size:13px;line-height:1.5;color:#aaa}
-.badge{display:inline-block;margin-top:13px;color:#c9a7ff;font-size:12px}
-.contact{margin-top:45px;padding:24px 18px;background:#151320;border:1px solid #302542;border-radius:16px}
-.contact h2{margin-bottom:10px}
-.contact p{color:#aaa;font-size:14px;line-height:1.6;margin-bottom:18px}
-input,textarea{width:100%;padding:13px;margin:7px 0;border:1px solid #40344f;border-radius:9px;background:#0d0b14;color:white;font-size:15px}
-button{background:#9655f5;color:white;border:0;border-radius:9px;padding:13px 20px;font-size:15px;font-weight:bold;cursor:pointer}
-.note{font-size:12px;color:#aaa;margin-top:12px}
-footer{text-align:center;padding:28px 12px;color:#888;font-size:13px}
+*{box-sizing:border-box}
+body{margin:0;background:#090910;color:#f5f3ff;font-family:Arial,sans-serif}
+header{text-align:center;padding:28px 15px;background:linear-gradient(135deg,#190b35,#35106b)}
+.logo{font-size:30px;font-weight:bold;color:#c4a1ff}
+header p{color:#ddd0f5}
+main{max-width:950px;margin:auto;padding:20px}
+h2{color:#c4a1ff}
+.search,input,textarea,select{width:100%;padding:13px;margin:8px 0;background:#171522;border:1px solid #49356c;border-radius:9px;color:white;font-size:16px}
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px;margin:20px 0}
+.card{background:#151320;border:1px solid #35254d;border-radius:12px;padding:17px;text-align:center}
+.card button,button{background:#7c3aed;color:white;border:0;border-radius:8px;padding:11px 15px;cursor:pointer;font-weight:bold}
+.card button{margin-top:10px}
+button:hover{background:#9560f5}
+#generator{background:#151320;border:1px solid #49356c;padding:18px;border-radius:12px;margin:20px 0}
+#output{min-height:120px;white-space:pre-wrap;overflow-wrap:anywhere}
+.small{color:#bcb5ce;font-size:13px;line-height:1.6}
+footer{text-align:center;padding:25px;color:#aaa}
+a{color:#c4a1ff}
+.hidden{display:none}
 </style>
 </head>
 <body>
 <header>
-  <div class="logo">Tools<span>WithAI</span></div>
-  <p>Your everyday AI toolkit</p>
+  <div class="logo">⚡ ToolsWithAI</div>
+  <p>Free tools to make your daily work easier</p>
 </header>
 
-<section class="hero">
-  <h1>Make Life Easier with <span>AI</span></h1>
-  <p>Discover smart tools for content, creativity and productivity.</p>
-  <input class="search" id="search" type="search" placeholder="🔍 Search AI tools..." aria-label="Search AI tools">
-</section>
+<main>
+  <h2>Find Your Tool 🔎</h2>
+  <input class="search" id="search" placeholder="Search tools..." oninput="filterTools()">
 
-<main class="container">
-  <h2 class="section-title">✨ Explore Our Tools</h2>
-  <div class="grid" id="tools">
-    <article class="card" data-name="text writer generator">
-      <div class="icon">✍️</div><h3>AI Text Writer</h3>
-      <p>Get help drafting text and ideas.</p><span class="badge">Coming soon</span>
-    </article>
-    <article class="card" data-name="instagram caption">
-      <div class="icon">📸</div><h3>Caption Generator</h3>
-      <p>Ideas for social media captions.</p><span class="badge">Coming soon</span>
-    </article>
-    <article class="card" data-name="hashtag generator">
-      <div class="icon">#️⃣</div><h3>Hashtag Generator</h3>
-      <p>Discover relevant hashtag ideas.</p><span class="badge">Coming soon</span>
-    </article>
-    <article class="card" data-name="bio instagram profile">
-      <div class="icon">👤</div><h3>Bio Generator</h3>
-      <p>Create a profile bio that fits you.</p><span class="badge">Coming soon</span>
-    </article>
-    <article class="card" data-name="story writer">
-      <div class="icon">📖</div><h3>Story Writer</h3>
-      <p>Get inspiration for original stories.</p><span class="badge">Coming soon</span>
-    </article>
-    <article class="card" data-name="youtube title">
-      <div class="icon">🎬</div><h3>YouTube Title Ideas</h3>
-      <p>Brainstorm titles for your videos.</p><span class="badge">Coming soon</span>
-    </article>
-    <article class="card" data-name="resume cv">
-      <div class="icon">📄</div><h3>Resume Helper</h3>
-      <p>Organize your experience and skills.</p><span class="badge">Coming soon</span>
-    </article>
-    <article class="card" data-name="translator language">
-      <div class="icon">🌐</div><h3>Text Translator</h3>
-      <p>Get help translating text between languages.</p><span class="badge">Coming soon</span>
-    </article>
+  <div class="tools" id="tools">
+    <div class="card" data-name="text writer"><h3>✍️ Text Writer</h3><p class="small">Create a basic draft</p><button onclick="openTool('text')">Use Tool</button></div>
+    <div class="card" data-name="instagram caption"><h3>📸 Instagram Caption</h3><p class="small">Caption ideas for posts</p><button onclick="openTool('caption')">Use Tool</button></div>
+    <div class="card" data-name="hashtag generator"><h3>#️⃣ Hashtag Generator</h3><p class="small">Find relevant hashtags</p><button onclick="openTool('hashtags')">Use Tool</button></div>
+    <div class="card" data-name="instagram bio"><h3>👤 Bio Generator</h3><p class="small">Create a profile bio</p><button onclick="openTool('bio')">Use Tool</button></div>
+    <div class="card" data-name="story writer"><h3>📖 Story Writer</h3><p class="small">Get a story outline</p><button onclick="openTool('story')">Use Tool</button></div>
+    <div class="card" data-name="youtube title"><h3>▶️ YouTube Titles</h3><p class="small">Video title ideas</p><button onclick="openTool('youtube')">Use Tool</button></div>
+    <div class="card" data-name="resume helper"><h3>📄 Resume Helper</h3><p class="small">Draft resume content</p><button onclick="openTool('resume')">Use Tool</button></div>
+    <div class="card" data-name="translator"><h3>🌐 Translator</h3><p class="small">Basic phrase helper</p><button onclick="openTool('translate')">Use Tool</button></div>
   </div>
 
-  <section class="contact" id="contact">
-    <h2>📩 Contact Us</h2>
-    <p>Have a suggestion or feedback? Leave us a message.</p>
-    <form id="contactForm">
-      <input id="visitorName" type="text" placeholder="Your name" maxlength="80" required>
-      <textarea id="visitorMessage" placeholder="Write your message..." rows="4" maxlength="2000" required></textarea>
-      <button type="submit">Send Message</button>
-    </form>
-    <p class="note" id="formNote">Note: The message inbox is being set up. Messages cannot be delivered yet.</p>
+  <section id="generator" class="hidden">
+    <h2 id="toolTitle">Your Tool</h2>
+    <label for="topic">Enter your topic or details:</label>
+    <textarea id="topic" rows="4" placeholder="Type here..."></textarea>
+    <div id="extraFields"></div>
+    <button onclick="generate()">Generate</button>
+    <button onclick="copyOutput()">Copy Result</button>
+    <div id="output" class="search" aria-live="polite">Your result will appear here.</div>
+    <p class="small">Note: These are basic template-based helpers, not connected to an AI model yet.</p>
   </section>
+
+  <h2>Contact Us 📩</h2>
+  <p class="small">Have a suggestion? Write your message below. The private inbox is not connected yet, so this form will not send or save your message.</p>
+  <form onsubmit="contactNotice(event)">
+    <input id="visitorName" placeholder="Your name" required>
+    <textarea id="visitorMessage" rows="4" placeholder="Your message" required></textarea>
+    <button type="submit">Send Message</button>
+  </form>
+  <p id="contactStatus" class="small" aria-live="polite"></p>
 </main>
 
-<footer>© <span id="year"></span> ToolsWithAI · Built for everyone 💜</footer>
+<footer>
+  <p>© 2026 ToolsWithAI | Made to make everyday tasks easier</p>
+</footer>
 
 <script>
-document.getElementById('year').textContent=new Date().getFullYear();
+let currentTool = "";
 
-document.getElementById('search').addEventListener('input',function(){
-  const query=this.value.toLowerCase().trim();
-  document.querySelectorAll('#tools .card').forEach(card=>{
-    card.style.display=card.dataset.name.includes(query)?'block':'none';
+const toolInfo = {
+  text: ["Text Writer", "Write a short draft about: "],
+  caption: ["Instagram Caption Generator", "Create a caption about: "],
+  hashtags: ["Hashtag Generator", "Hashtags for: "],
+  bio: ["Bio Generator", "Create a profile bio for: "],
+  story: ["Story Writer", "Create a short story outline about: "],
+  youtube: ["YouTube Title Generator", "Video topic: "],
+  resume: ["Resume Helper", "Name, skills, experience and target job: "],
+  translate: ["Basic Translator Helper", "Enter text and target language, e.g. Hello - Hindi: "]
+};
+
+function openTool(name) {
+  currentTool = name;
+  document.getElementById("toolTitle").textContent = toolInfo[name][0];
+  document.getElementById("topic").placeholder = toolInfo[name][1];
+  document.getElementById("topic").value = "";
+  document.getElementById("output").textContent = "Your result will appear here.";
+  document.getElementById("generator").classList.remove("hidden");
+  document.getElementById("generator").scrollIntoView({behavior:"smooth"});
+}
+
+function filterTools() {
+  const q = document.getElementById("search").value.toLowerCase();
+  document.querySelectorAll(".card").forEach(card => {
+    card.style.display = card.dataset.name.includes(q) ? "" : "none";
   });
-});
+}
 
-document.getElementById('contactForm').addEventListener('submit',function(event){
+function generate() {
+  const raw = document.getElementById("topic").value.trim();
+  if (!raw) {
+    document.getElementById("output").textContent = "Please enter your topic or details first.";
+    return;
+  }
+
+  const topic = raw.charAt(0).toUpperCase() + raw.slice(1);
+  let result = "";
+
+  switch(currentTool) {
+    case "text":
+      result = "Title: " + topic + "\n\nIntroduction:\n" + topic + " is an interesting topic worth exploring.\n\nMain points:\n• Explain the key idea.\n• Add useful details or examples.\n• Share your own perspective.\n\nConclusion:\nSummarize the main points and leave the reader with a clear takeaway.";
+      break;
+    case "caption":
+      result = [
+        topic + " ✨ One moment, one memory!",
+        topic + " ❤️ Living my story, one day at a time.",
+        topic + " 🔥 Good vibes and real moments.",
+        topic + " 🌟 Making memories that matter."
+      ].join("\n\n");
+      break;
+    case "hashtags":
+      result = topic.split(/[\s,]+/).filter(Boolean).map(w => "#" + w.replace(/[^a-zA-Z0-9_]/g,"")).filter(w => w.length > 1).slice(0,8).join(" ") + " #Trending #Explore #ContentCreator";
+      break;
+    case "bio":
+      result = topic + "\n✨ Living life my way\n🎯 Dreams • Growth • Good vibes\n📍 Creating my own journey";
+      break;
+    case "story":
+      result = "Story title: " + topic + "\n\nBeginning: Introduce the main character and their dream.\n\nChallenge: An unexpected problem puts that dream at risk.\n\nTurning point: The character makes a brave decision and learns something important.\n\nEnding: Resolve the challenge with a meaningful lesson related to " + topic + ".";
+      break;
+    case "youtube":
+      result = [
+        topic + " | Full Story & Experience",
+        "My Experience With " + topic + " 🔥",
+        "You Need to Know This About " + topic + "!",
+        topic + " - An Honest Look",
+        "What Happened When I Tried " + topic + "?"
+      ].join("\n");
+      break;
+    case "resume":
+      result = "RESUME DRAFT\n\nName: [Your Full Name]\nPhone/Email: [Your Contact Details]\n\nCAREER OBJECTIVE\nMotivated candidate seeking a role as " + topic + ".\n\nSKILLS\n• [Add your relevant skills]\n• Communication and teamwork\n• [Add software or technical skills]\n\nWORK EXPERIENCE\n[Company Name] | [Job Title] | [Dates]\n• [Describe your responsibilities and achievements]\n\nEDUCATION\n[Qualification, Institution, Year]\n\nReview and replace all bracketed details before using.";
+      break;
+    case "translate":
+      result = "Translation is not connected yet. To translate accurately, use a translation service and enter the desired language. Your text: " + raw;
+      break;
+  }
+  document.getElementById("output").textContent = result;
+}
+
+async function copyOutput() {
+  const text = document.getElementById("output").textContent;
+  try {
+    await navigator.clipboard.writeText(text);
+    alert("Result copied!");
+  } catch(e) {
+    alert("Please select the result and copy it manually.");
+  }
+}
+
+function contactNotice(event) {
   event.preventDefault();
-  document.getElementById('formNote').textContent=
-    'The inbox is not connected yet. Your message has NOT been sent.';
-});
+  document.getElementById("contactStatus").textContent =
+    "This website's inbox is not connected yet. Your message has NOT been sent or saved.";
+}
 </script>
 </body>
 </html>
