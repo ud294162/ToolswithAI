@@ -1,1 +1,202 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ToolsWithAI — Private Inbox</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#090910;color:#f5f3ff;font-family:Arial,sans-serif}
+header{padding:22px 16px;text-align:center;background:linear-gradient(135deg,#190b35,#35106b)}
+h1{color:#d0b5ff;font-size:25px}
+main{max-width:750px;margin:24px auto;padding:16px}
+.panel,.message{background:#151320;border:1px solid #49356c;border-radius:12px;padding:16px;margin-bottom:14px}
+input{width:100%;padding:13px;background:#090910;color:white;border:1px solid #49356c;border-radius:8px;margin:8px 0}
+button{padding:11px 15px;border:0;border-radius:8px;background:#7c3aed;color:white;font-weight:bold;cursor:pointer;margin:5px 5px 5px 0}
+button:disabled{opacity:.5}
+.danger{background:#b42335}
+.muted{color:#bcb5ce;font-size:13px;line-height:1.5}
+.status{white-space:pre-wrap;overflow-wrap:anywhere}
+.message p{white-space:pre-wrap;overflow-wrap:anywhere}
+.message h3{margin-top:0;color:#d0b5ff}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<header>
+  <h1>🔐 ToolsWithAI Private Inbox</h1>
+  <div>Admin dashboard</div>
+</header>
+
+<main>
+  <section id="loginPanel" class="panel">
+    <h2>Admin Login</h2>
+    <p class="muted">Enter your admin password to access messages.</p>
+    <form id="loginForm">
+      <input id="password" type="password" placeholder="Admin password" required autocomplete="current-password">
+      <button id="loginButton" type="submit">Login</button>
+    </form>
+    <p id="loginStatus" class="status" aria-live="polite"></p>
+  </section>
+
+  <section id="inboxPanel" class="hidden">
+    <div class="panel">
+      <h2>📩 Your Messages</h2>
+      <button id="refreshButton" type="button">Refresh Inbox</button>
+      <button id="logoutButton" type="button">Logout</button>
+      <p id="inboxStatus" class="status" aria-live="polite"></p>
+    </div>
+    <div id="messages"></div>
+  </section>
+  <p class="muted">Keep your admin password private. Logout when you finish.</p>
+  <p><a href="./" style="color:#c4a1ff">← Back to ToolsWithAI</a></p>
+</main>
+
+<script>
+const API = "https://billowing-limit-c74c.ud294162.workers.dev";
+let token = "";
+
+const loginPanel = document.getElementById("loginPanel");
+const inboxPanel = document.getElementById("inboxPanel");
+const loginStatus = document.getElementById("loginStatus");
+const inboxStatus = document.getElementById("inboxStatus");
+const messagesBox = document.getElementById("messages");
+
+async function api(path, options = {}) {
+  const headers = { ...(options.headers || {}) };
+  if (token) headers.Authorization = "Bearer " + token;
+
+  const response = await fetch(API + path, { ...options, headers });
+  const data = await response.json().catch(() => ({}));
+
+  if (!response.ok) {
+    throw new Error(data.error || "Request failed (" + response.status + ")");
+  }
+  return data;
+}
+
+document.getElementById("loginForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  const button = document.getElementById("loginButton");
+  button.disabled = true;
+  loginStatus.textContent = "Logging in...";
+
+  try {
+    const data = await api("/admin/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        password: document.getElementById("password").value
+      })
+    });
+
+    token = data.token;
+    document.getElementById("password").value = "";
+    loginPanel.classList.add("hidden");
+    inboxPanel.classList.remove("hidden");
+    await loadMessages();
+  } catch (error) {
+    loginStatus.textContent = "Login failed: " + error.message;
+  } finally {
+    button.disabled = false;
+  }
+});
+
+async function loadMessages() {
+  inboxStatus.textContent = "Loading messages...";
+  messagesBox.replaceChildren();
+
+  try {
+    const data = await api("/admin/messages");
+    const messages = data.messages || [];
+
+    if (!messages.length) {
+      inboxStatus.textContent = "Inbox is empty. No messages found.";
+      return;
+    }
+
+    inboxStatus.textContent = messages.length + " message(s) loaded.";
+
+    messages.forEach(message => {
+      const card = document.createElement("article");
+      card.className = "message";
+
+      const title = document.createElement("h3");
+      title.textContent = message.name || "Visitor";
+
+      const date = document.createElement("div");
+      date.className = "muted";
+      date.textContent = "Received: " + (message.created_at || "Unknown date");
+
+      const state = document.createElement("p");
+      state.className = "muted";
+      state.textContent = Number(message.is_read) === 1 ? "Read" : "Unread";
+
+      const body = document.createElement("p");
+      body.textContent = message.message || "";
+
+      card.append(title, date, state, body);
+
+      if (Number(message.is_read) !== 1) {
+        const readButton = document.createElement("button");
+        readButton.textContent = "Mark as Read";
+        readButton.addEventListener("click", async () => {
+          readButton.disabled = true;
+          try {
+            await api("/admin/read", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ id: message.id })
+            });
+            await loadMessages();
+          } catch (error) {
+            inboxStatus.textContent = error.message;
+            readButton.disabled = false;
+          }
+        });
+        card.appendChild(readButton);
+      }
+
+      const deleteButton = document.createElement("button");
+      deleteButton.className = "danger";
+      deleteButton.textContent = "Delete";
+      deleteButton.addEventListener("click", async () => {
+        if (!confirm("Permanently delete this message?")) return;
+        deleteButton.disabled = true;
+
+        try {
+          await api("/admin/messages?id=" + encodeURIComponent(message.id), {
+            method: "DELETE"
+          });
+          await loadMessages();
+        } catch (error) {
+          inboxStatus.textContent = error.message;
+          deleteButton.disabled = false;
+        }
+      });
+
+      card.appendChild(deleteButton);
+      messagesBox.appendChild(card);
+    });
+  } catch (error) {
+    inboxStatus.textContent = "Could not load inbox: " + error.message;
+    if (error.message.toLowerCase().includes("unauthorized")) logout();
+  }
+}
+
+function logout() {
+  token = "";
+  messagesBox.replaceChildren();
+  inboxPanel.classList.add("hidden");
+  loginPanel.classList.remove("hidden");
+  loginStatus.textContent = "Logged out.";
+  inboxStatus.textContent = "";
+}
+
+document.getElementById("refreshButton").addEventListener("click", loadMessages);
+document.getElementById("logoutButton").addEventListener("click", logout);
+</script>
+</body>
+</html>
+
